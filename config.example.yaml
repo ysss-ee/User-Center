@@ -10,23 +10,3 @@ db:
   password: "123456789"
   address: "localhost:3306"
   name: "usercenter"
-
-jwt:
-  secret: "secretKey"
-  issuer: "issuer"
-  expires: 48
-
-email:
-  sender: "12345678@qq.com"
-  pwd:  "12345678"
-  smtpaddr: "smtp.qq.com"
-  smtpport: 465
-
-redis:
-  host: "127.0.0.1"
-  port: "6379"
-  db: 0
-  password:
-
-
-

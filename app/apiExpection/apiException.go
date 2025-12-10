@@ -17,8 +17,6 @@ var (
 	ClosedError       = NewError(http.StatusInternalServerError, 507, "统一身份认证夜间不对外开放")
 	NotFound          = NewError(http.StatusNotFound, 404, http.StatusText(http.StatusNotFound))
 	Unknown           = NewError(http.StatusInternalServerError, 300500, "系统异常，请稍后重试!")
-	EmailNotFound     = NewError(http.StatusOK, 404, "找不到对应邮箱")
-	CodeError         = NewError(http.StatusOK, 500, "验证码错误")
 	WrongPassword     = NewError(http.StatusOK, 409, "统一系统密码错误")
 	NotActivatedError = NewError(http.StatusOK, 411, "统一系统账号未激活")
 	WrongAccount      = NewError(http.StatusOK, 412, "统一系统账号错误")

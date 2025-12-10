@@ -4,33 +4,35 @@ import (
 	"usercenter/app/model"
 	"usercenter/app/utility"
 	"usercenter/config/database"
+
+	"gorm.io/gorm"
 )
 
 func UpdateUserEmailByStudentId(studentId, email string) error {
-	user, _ := GetUserByStudentId(studentId)
-	user.Email = email
-	err := database.DB.Model(model.User{}).Where(
-		model.User{
-			StudentId: user.StudentId,
-		}).Updates(user).Error
-	if err != nil {
-		return err
-	} else {
-		return nil
+	result := database.DB.Model(&model.User{}).
+		Where("student_id = ?", studentId).
+		Update("email", email)
+
+	if result.Error != nil {
+		return result.Error
 	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
 
 func UpdateUserPasswordByStudentId(studentId, password string) error {
-	user, _ := GetUserByStudentId(studentId)
 	pass := utility.Encryrpt(password)
-	user.Password = pass
-	err := database.DB.Model(model.User{}).Where(
-		model.User{
-			StudentId: user.StudentId,
-		}).Updates(user).Error
-	if err != nil {
-		return err
-	} else {
-		return nil
+	result := database.DB.Model(&model.User{}).
+		Where("student_id = ?", studentId).
+		Update("password", pass)
+
+	if result.Error != nil {
+		return result.Error
 	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }

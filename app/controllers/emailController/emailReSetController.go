@@ -1,11 +1,13 @@
 package emailController
 
 import (
-	"github.com/gin-gonic/gin"
-	"log"
+	"errors"
 	"net/http"
 	"usercenter/app/services/userService"
 	"usercenter/app/utility"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type EmailData struct {
@@ -17,17 +19,9 @@ func EmailReset(c *gin.Context) {
 	var data EmailData
 	err := c.ShouldBindJSON(&data)
 	if err != nil {
-		log.Println(err)
-		utility.JsonResponseInternalServerError(c)
+		utility.JsonResponse(400, "参数错误", nil, c)
 		return
 	}
-	_, err = userService.GetUserByStudentId(data.StudentId)
-	if err != nil {
-		log.Println(err)
-		utility.JsonResponse(404, "该用户不存在", nil, c)
-		return
-	}
-
 	if !utility.IsValidEmail(data.Email) {
 		utility.JsonResponse(405, "邮箱格式不正确", nil, c)
 		return
@@ -35,7 +29,10 @@ func EmailReset(c *gin.Context) {
 
 	err = userService.UpdateUserEmailByStudentId(data.StudentId, data.Email)
 	if err != nil {
-		log.Println(err)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			utility.JsonResponse(404, "该用户不存在", nil, c)
+			return
+		}
 		utility.JsonResponseInternalServerError(c)
 		return
 	}

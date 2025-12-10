@@ -1,11 +1,13 @@
 package userController
 
 import (
-	"github.com/gin-gonic/gin"
-	"log"
+	"errors"
 	"usercenter/app/services/studentService"
 	"usercenter/app/services/userService"
 	"usercenter/app/utility"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type ResetPwdForm struct {
@@ -19,8 +21,7 @@ func RePass(c *gin.Context) {
 	var data ResetPwdForm
 	err := c.ShouldBindJSON(&data)
 	if err != nil {
-		log.Println(err)
-		utility.JsonResponseInternalServerError(c)
+		utility.JsonResponse(400, "请求参数错误", nil, c)
 		return
 	}
 
@@ -34,12 +35,11 @@ func RePass(c *gin.Context) {
 		return
 	}
 
-	if _, err = userService.GetUserByStudentId(data.StudentId); err != nil {
-		utility.JsonResponse(404, "用户不存在", nil, c)
-		return
-	}
-
 	if err = userService.UpdateUserPasswordByStudentId(data.StudentId, data.Password); err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			utility.JsonResponse(404, "用户不存在", nil, c)
+			return
+		}
 		utility.JsonResponseInternalServerError(c)
 		return
 	}
