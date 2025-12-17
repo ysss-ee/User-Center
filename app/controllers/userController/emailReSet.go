@@ -1,4 +1,4 @@
-package emailController
+package userController
 
 import (
 	"errors"

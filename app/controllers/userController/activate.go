@@ -16,7 +16,7 @@ type RegisterData struct {
 	Type      uint8  `json:"type"` // 0: 本科生 1: 研究生
 }
 
-func ActiviteWithoutEmail(c *gin.Context) {
+func Activite(c *gin.Context) {
 	var data RegisterData
 	err := c.ShouldBindJSON(&data)
 	if err != nil {

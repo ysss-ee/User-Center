@@ -4,7 +4,6 @@ go 1.22.9
 
 require (
 	github.com/gin-contrib/cors v1.4.0
-	github.com/gin-contrib/sessions v1.0.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/spf13/viper v1.14.0
 	github.com/zjutjh/WeJH-SDK v0.2.0
@@ -28,9 +27,6 @@ require (
 	github.com/go-resty/resty/v2 v2.16.3 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/goccy/go-json v0.10.4 // indirect
-	github.com/gorilla/context v1.1.2 // indirect
-	github.com/gorilla/securecookie v1.1.2 // indirect
-	github.com/gorilla/sessions v1.2.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
