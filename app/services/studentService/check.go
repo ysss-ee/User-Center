@@ -12,7 +12,9 @@ func CheckStudentBYSIDAndIID(sid string, iid string) bool {
 			StudentId: sid,
 		},
 	).First(&student)
-	if student.Iid != iid || result.Error != nil {
+	student_iid_6 := student.Iid[len(student.Iid)-6:]
+	iid_6 := iid[len(iid)-6:]
+	if student_iid_6 != iid_6 || result.Error != nil {
 		return false
 	} else {
 		return true
